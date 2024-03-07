@@ -1,23 +1,26 @@
-import { Provider } from 'react-redux';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import HomePage from './pages/Home.tsx';
+import Root from './pages/Root.tsx';
+import Food from './pages/Food.tsx';
 
-import Header from './components/Header.tsx';
-import Shop from './components/Shop.tsx';
-import Product from './components/Product.tsx';
-import { DUMMY_PRODUCTS } from './dummy-products.ts';
-import { store } from './store/store.ts';
+const Router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      { path: 'foods', element: <Food /> },
+      { path: 'foods/:id', element: <Food /> },
+    ],
+  },
+]);
 
 function App() {
   return (
-    <Provider store={store}>
-      <Header />
-      <Shop>
-        {DUMMY_PRODUCTS.map((product) => (
-          <li key={product.id}>
-            <Product {...product} />
-          </li>
-        ))}
-      </Shop>
-    </Provider>
+    <RouterProvider router={Router} />
   );
 }
 
